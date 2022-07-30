@@ -1,0 +1,132 @@
+- Write an algorithm to demultiplex files and report index-hopping
+    
+
+4 input FASTQ files (2 biological reads, 2 index reads)
+24 known indexes
+
+R1 - read 1
+R2 - index 1
+R3 - index 2
+R4 - read 2
+
+Output FASTQ files: 
+    Dual Matched Indexes
+        24 R1 FASTQ files
+        24 R2 FASTQ files
+    Index Hopped
+        2 FASTQ files for non-matching index-pairs
+    Unknown indexes
+        2 FASTQ files when one or both index reads are unknown or low-quality
+
+
+Set quality cutoff score for evaluting index read, based off graph from the first part
+C - cutoff score
+List of known indexes placed into index set
+Index = {}
+
+Functions:
+
+    Define reverse_complement function which will take an index as an argument and return the reverse complement of that index
+        def reverse_complement(index):
+            Input: ATTA
+            Expected Output: TAAT
+            return reverse complement of index
+
+Dictionaries to create:
+
+    Dictionary of index and reverse_complement of index 
+
+    Dictionary of counts for each group of matched indexes, indexed hopped, and unknown indexes
+
+    Dictionary set up to read how many times barcdodes got matched to incorrect barcode
+        -use combinatoric iterator 
+____________________________________________________________________________________________________________________________________________________
+
+Open all 4 FASTQ files (R1, R2, R3, R4)
+
+Read through each line, going through record by record
+
+Retrieve the sequence line for each record
+
+     ''' Unknown Indexes '''
+    if a N is present in the index, 
+    if index 1 (R2) or the revese complement of index 2 (R3) are not in the index set,
+    if the quality score for index 1 or index 2 is below the quality score cutoff,
+    read 1 (R1) and read 2 (R4) will be placed in Unknown Index files:
+
+        - the sequence of the index pair will be added to the header of both reads 
+        create a fastq file for read (R1)
+            unknown.R1.fq
+                R1 header_index1 - reverse_complement index2
+                R1 sequence
+            Ex. @seq1_NA-AN 
+                GCCC
+
+        create a fastq file for read (R2)
+            unknown.R2.fq
+                R2 header_index2 - reverse_complement index 2
+                R2 sequence
+            Ex. @seq1_NA-AN 
+                CCCC
+
+        - the number of read-pairs with unknown or low quality indexes will be counted
+            read through the unknown R1 fq file
+            count each header line to get the total number of reads in that file
+            
+
+
+    ''' Index Hopped '''
+    if index 1 (R2) does not equal the reverse complement of index 2 (R3) and they are both in the index set,
+    read 1 (R1) and read 2 (R4) will be placed in Index Hopped files:
+
+        - the sequence of the index pair will be added to the header of both reads   
+        create a fastq file for read 1 (R1)
+            hopped.R1.fq
+                R1 header_index1 - reverse_complement index2
+                R1 sequence
+            Ex. @seq2_AA-CC
+                TTTA
+
+        create a fastq file for read 2 (R4)
+            hopped.R2.fq
+                R2 header_index2 - reverse_complement index 2
+                R2 sequence 
+            Ex. @seq2_AA-CG
+                TTTT
+
+        - the number of read pairs with index hopping will be counted
+        - counts for each possible pair of swapped indexes 
+            use dictionary to keep count of each unique index pair (combinatoric iterator, permutations)
+    
+
+
+    ''' Dual Matched Indexes '''
+    if index 1 (R2) equals the reverse complement of index 2 (R3) and they are both in index set,
+    read 1 (R1) and read 2 (R4) will be placed into Dual Matched files:
+
+        - the sequence of the index pair will be added to the header of both reads 
+        create a fastq file for read 1 (R1)
+            AA.R1.fq
+                R1 header_index1 - reverse_complement index2
+                R1 sequence
+            Ex. @seq3_AA-CC
+                ATGC
+
+        create a fastq file for read 2 (R4)
+            AA.R2.fq
+                R2 header_index2 - reverse_complement index 2
+                R2 sequence
+            Ex. @seq3_AA-CC
+                AGGC
+
+        - the number of read pairs with properly matched indexes will be counted 
+            read through the R1 fq file for each index pair in the set 
+            count each header line to get the total number of reads in that file 
+        - counts for each index pair in index set
+            use dictionary to keep count of each unique matched index
+
+
+   
+
+
+
