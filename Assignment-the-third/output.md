@@ -1,3 +1,4 @@
+```
 Index Pair       Count   Percentage 
 
 ('TACCGGAT', 'TACCGGAT')        69307073        22.686596891038345
@@ -586,3 +587,4 @@ dual_matched    3304980270      98.26755306431599
 index_hopped    517612  0.015390247602514956
 unknown 57748853        1.7170566880814948
 total   3363246735
+```
