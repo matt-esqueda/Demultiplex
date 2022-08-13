@@ -13,7 +13,10 @@
 
 2. Per-base NT distribution
     1.  Use markdown to insert your 4 histograms here.
-        
+        ![read_1](https://github.com/matt-esqueda/Demultiplex/blob/bfa12ce98800595b094e8121482323b3c91375b4/Assignment-the-first/Part_1/read1.png)
+        ![read_2](https://github.com/matt-esqueda/Demultiplex/blob/bfa12ce98800595b094e8121482323b3c91375b4/Assignment-the-first/Part_1/read2.png)
+        ![index_1](https://github.com/matt-esqueda/Demultiplex/blob/bfa12ce98800595b094e8121482323b3c91375b4/Assignment-the-first/Part_1/index1.png)
+        ![index_2](https://github.com/matt-esqueda/Demultiplex/blob/bfa12ce98800595b094e8121482323b3c91375b4/Assignment-the-first/Part_1/index2.png)
     
     2.  Index quality score cutoff: 35 
         Based off the graph this score will exclude the low quality indexs
